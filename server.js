@@ -1,6 +1,6 @@
 // =============================================================
 //  Vibe Coding · C/S 단계 데모
-//  1:N 프롬프트/자료 공유 — 강의별(방) 분리 + 강사가 인원 설정
+//  1:N 프롬프트/자료 공유 — 강의별(방) 분리 + 강사가 인원 설정 + 1:1 답변
 //  URL 끝 경로 = 강의명(방).  예: /lao2024?host=1 , /lao2024?number=1
 //  "자료의 진실은 서버가 가진다" — 모두가 같은 서버 상태를 본다
 //  ⚠ Render 무료 플랜은 재배포/슬립 시 저장 자료가 초기화됩니다(임시 디스크).
@@ -28,16 +28,21 @@ ensure(MATERIAL_ROOT);
 
 // =============================================================
 //  방(강의) 상태
-//  rooms[roomId] = { configured, studentCount, students:{n:{number,name,dir,prompts,files}}, materials:[], updatedAt }
+//  rooms[roomId] = { configured, studentCount, students:{n:{number,name,dir,prompts,files,replies}}, materials:[], updatedAt }
+//  student.replies = [{ id, text, re(답한 프롬프트 id|null), ts }]  ← 강사가 그 학생에게만 보낸 답변
 // =============================================================
 let rooms = {};
 
 function freshRoom() {
   return { configured: false, studentCount: 0, students: {}, materials: [], updatedAt: Date.now() };
 }
+function newStudent(i) {
+  return { number: i, name: '', dir: '', prompts: [], files: [], replies: [] };
+}
 function ensureSlots(room) {
   for (let i = 1; i <= room.studentCount; i++) {
-    if (!room.students[i]) room.students[i] = { number: i, name: '', dir: '', prompts: [], files: [] };
+    if (!room.students[i]) room.students[i] = newStudent(i);
+    if (!Array.isArray(room.students[i].replies)) room.students[i].replies = [];
   }
 }
 function getRoom(roomId) {
@@ -63,7 +68,7 @@ function loadState() {
           room.materials = Array.isArray(r.materials) ? r.materials : [];
           if (r.students) {
             for (let i = 1; i <= room.studentCount; i++) {
-              if (r.students[i]) room.students[i] = { number: i, name: '', dir: '', prompts: [], files: [], ...r.students[i] };
+              if (r.students[i]) room.students[i] = { ...newStudent(i), ...r.students[i] };
             }
           }
           ensureSlots(room);
@@ -225,6 +230,32 @@ app.post('/api/:room/student/file', studentUpload.single('file'), (req, res) => 
   res.json({ ok: true });
 });
 
+// 강사: 특정 학생에게 1:1 답변 (그 학생 화면에만 표시)
+app.post('/api/:room/host/reply', (req, res) => {
+  const room = getRoom(sanitizeRoom(req.params.room));
+  const number = parseInt(req.body.number, 10);
+  const text = String(req.body.text || '').trim();
+  const re = req.body.re ? String(req.body.re) : null;   // 답한 프롬프트 id (선택)
+  const s = room.students[number];
+  if (!s) return res.status(400).json({ error: '잘못된 번호' });
+  if (!text) return res.status(400).json({ error: '답변이 비어 있습니다.' });
+  if (!Array.isArray(s.replies)) s.replies = [];
+  s.replies.push({ id: newId(), text, re, ts: Date.now() });
+  touch(room);
+  res.json({ ok: true });
+});
+
+// 강사: 보낸 답변 삭제(취소)
+app.post('/api/:room/host/reply/delete', (req, res) => {
+  const room = getRoom(sanitizeRoom(req.params.room));
+  const number = parseInt(req.body.number, 10);
+  const s = room.students[number];
+  if (!s || !Array.isArray(s.replies)) return res.status(400).json({ error: '잘못된 번호' });
+  s.replies = s.replies.filter(r => r.id !== req.body.id);
+  touch(room);
+  res.json({ ok: true });
+});
+
 // 강사 배포 자료 — 텍스트
 app.post('/api/:room/host/material/text', (req, res) => {
   const room = getRoom(sanitizeRoom(req.params.room));
@@ -264,7 +295,7 @@ app.get('/api/:room/student/:number/file/:id', (req, res) => {
   res.download(path.join(roomUploadDir(roomId), s.dir, f.stored), f.original);
 });
 
-// 초기화 — 이 방의 제출물/자료/이름만 삭제 (인원 설정은 유지, 다른 방 영향 없음)
+// 초기화 — 이 방의 제출물/자료/이름/답변만 삭제 (인원 설정은 유지, 다른 방 영향 없음)
 app.post('/api/:room/reset', (req, res) => {
   try {
     const roomId = sanitizeRoom(req.params.room);
@@ -289,7 +320,7 @@ app.get('*', (req, res) => res.sendFile(path.join(ROOT, 'public', 'index.html'))
 
 app.listen(PORT, () => {
   console.log('============================================');
-  console.log(' Vibe Coding · C/S 프롬프트 공유 도구 (다중 방)');
+  console.log(' Vibe Coding · C/S 프롬프트 공유 도구 (다중 방 + 1:1 답변)');
   console.log(` 강사 화면 : http://localhost:${PORT}/<강의명>?host=1`);
   console.log(` 학생 화면 : http://<내IP>:${PORT}/<강의명>?number=1`);
   console.log('   예) /lao2024?host=1 , /lao2024?number=1');

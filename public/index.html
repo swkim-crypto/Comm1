@@ -69,7 +69,8 @@
   .nameinput{flex:1;min-width:0;border:1px solid transparent;border-radius:7px;padding:5px 7px;font-size:14px;font-weight:700;background:#F3F4F6}
   .nameinput::placeholder{color:#9CA3AF;font-weight:500}
   .nameinput:hover{background:#EBEDF2}.nameinput:focus{background:#fff;border-color:var(--indigo)}
-  .counts{font-size:12.5px;color:var(--muted);display:flex;gap:10px}.counts b{color:var(--indigo-dark)}
+  .counts{font-size:12.5px;color:var(--muted);display:flex;gap:9px;flex-wrap:wrap}.counts b{color:var(--indigo-dark)}
+  .counts .rep b{color:var(--ok)}
   .cell .copen{margin-top:auto;background:var(--indigo-soft);color:var(--indigo-dark);border:none;border-radius:8px;padding:8px;font-weight:700;font-size:13px}
   .cell .copen:hover{background:#E0E7FF}.cell .copen:disabled{background:#F3F4F6;color:#9CA3AF}
   .footnote{margin-top:18px;font-size:12px;color:var(--muted);border-top:1px dashed var(--border);padding-top:12px}
@@ -85,7 +86,7 @@
   .mbody2{padding:18px 20px;overflow-y:auto}
   .mlabel{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:0 0 9px}
   .promptsplit{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .listbox{border:1px solid var(--border);border-radius:10px;overflow-y:auto;max-height:300px;background:#fafafe}
+  .listbox{border:1px solid var(--border);border-radius:10px;overflow-y:auto;max-height:340px;background:#fafafe}
   .lbitem{padding:10px 12px;border-bottom:1px solid #EEF0F6;font-size:13.5px;display:flex;gap:9px;cursor:pointer}
   .lbitem:last-child{border-bottom:none}.lbitem:hover{background:var(--indigo-soft)}
   .lbitem.sel{background:var(--indigo);color:#fff}
@@ -93,11 +94,19 @@
   .lbitem .lbt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .lbempty{padding:20px;text-align:center;color:var(--muted);font-size:13px}
   .viewer{border:1px solid var(--border);border-radius:10px;padding:12px;background:#fff;display:flex;flex-direction:column;min-height:140px}
-  .viewer .vtext{flex:1;white-space:pre-wrap;word-break:break-word;font-size:14px;overflow-y:auto;max-height:240px}
+  .viewer .vtext{white-space:pre-wrap;word-break:break-word;font-size:14px;overflow-y:auto;max-height:170px}
   .viewer .vmeta{font-size:11px;color:var(--muted);margin-bottom:8px}
+  .replybox{margin-top:12px;border-top:1px dashed var(--border);padding-top:12px}
+  .replybox .rhint{font-size:11.5px;color:var(--indigo-dark);font-weight:700;margin-bottom:6px}
   .filelist{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
   .filelist li{display:flex;align-items:center;gap:10px;background:#fafafe;border:1px solid var(--border);border-radius:9px;padding:9px 12px;font-size:13.5px}
   .filelist .fname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .rlist li{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 40px 10px 13px;font-size:13.5px;white-space:pre-wrap;word-break:break-word;position:relative}
+  .rlist .rmeta{font-size:11px;color:#15803D;font-weight:800;margin-bottom:4px}
+  .rlist .rdel{position:absolute;top:8px;right:8px;border-color:#FCA5A5;color:#B91C1C;background:#fff}
+  .rlist .rdel:hover{background:#FEF2F2}
+  .rl-empty{background:none!important;border:none!important;color:var(--muted);padding:4px;font-size:13px}
   hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0}
 
   .student{max-width:760px;margin:0 auto;padding:24px 18px}
@@ -107,12 +116,17 @@
   .gate p{color:var(--muted);margin:0 0 18px;font-size:14px}
   .gate input{width:100%;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:16px;text-align:center;margin-bottom:12px}
   .card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:var(--shadow)}
+  .card.reply{border-color:#BBF7D0;background:#F7FEF9}
   .card h2{margin:0 0 4px;font-size:16px;display:flex;align-items:center;gap:8px}
   .card .sub{color:var(--muted);font-size:13px;margin:0 0 14px}
   .badge-new{background:var(--ok);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px}
   .mine{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
   .mine li{background:#fafafe;border:1px solid var(--border);border-radius:9px;padding:9px 12px;font-size:13.5px;white-space:pre-wrap;word-break:break-word}
   .mine .mtag{font-size:11px;font-weight:800;color:var(--indigo-dark);margin-right:7px}
+  .replies{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+  .replies li{background:#fff;border:1px solid #BBF7D0;border-radius:11px;padding:12px 14px;font-size:14px;white-space:pre-wrap;word-break:break-word}
+  .replies .mtag{font-size:11px;font-weight:800;color:#15803D;margin-right:7px}
+  .replies .rt{font-size:11px;color:var(--muted);margin-top:7px}
 
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;transition:.25s;z-index:80;display:flex;align-items:center;gap:9px;pointer-events:none}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -190,6 +204,11 @@
       <p class="sub">강사가 올린 프롬프트와 파일을 받아갑니다.</p>
       <ul class="matlist" id="stMatList"></ul>
     </div>
+    <div class="card reply hidden" id="stReplyCard">
+      <h2>강사 답변 <span class="badge-new hidden" id="replyBadge">NEW</span></h2>
+      <p class="sub">강사가 나에게만 보낸 1:1 답변입니다.</p>
+      <ul class="replies" id="stReplyList"></ul>
+    </div>
     <div class="card">
       <h2>내 제출</h2>
       <p class="sub">프롬프트(텍스트)와 파일을 서버로 보냅니다.</p>
@@ -233,8 +252,16 @@
           <div class="vmeta" id="mViewerMeta">왼쪽에서 항목을 선택하세요</div>
           <div class="vtext" id="mViewerText"></div>
           <div class="row"><button class="btn btn-light hidden" id="mCopy">이 프롬프트 복사</button></div>
+          <div class="replybox">
+            <div class="rhint" id="mReplyHint">이 학생에게 보낼 답변을 입력하세요</div>
+            <textarea id="mReply" placeholder="답변을 입력하세요…"></textarea>
+            <div class="row"><button class="btn btn-primary" id="mReplyBtn" style="flex:1">답변 보내기</button></div>
+          </div>
         </div>
       </div>
+      <hr class="sep">
+      <p class="mlabel">보낸 답변</p>
+      <ul class="rlist" id="mReplyList"></ul>
       <hr class="sep">
       <p class="mlabel">제출 파일</p>
       <ul class="filelist" id="mFiles"></ul>
@@ -255,7 +282,9 @@ const myNumber = parseInt(qs.get('number'),10);
 const hasNumber = Number.isInteger(myNumber) && myNumber>=1;
 const roomShown = room==='default' ? '(기본)' : room;
 
-let latest=null, openStudent=null, selPromptId=null, seenMaterialCount=0, matInitialized=false, gridCount=0;
+let latest=null, openStudent=null, selPromptId=null;
+let seenMaterialCount=0, matInitialized=false, gridCount=0;
+let seenReplyCount=0, replyInitialized=false;
 
 const $ = id => document.getElementById(id);
 function toast(msg,isErr){const t=$('toast');$('toastTxt').textContent=msg;t.classList.toggle('err',!!isErr);t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200);}
@@ -305,6 +334,7 @@ function renderHost(){
     const s=st[i]; if(!s) continue; const ni=$('name'+i);
     if(ni && document.activeElement!==ni) ni.value=s.name||'';
     $('pc'+i).textContent=s.prompts.length; $('fc'+i).textContent=s.files.length;
+    $('rc'+i).textContent=(s.replies||[]).length;
     const has=s.prompts.length||s.files.length; $('cell'+i).classList.toggle('has',!!has);
     $('open'+i).disabled=!(s.name||has);
   }
@@ -316,7 +346,7 @@ function buildGrid(n){
   for(let i=1;i<=n;i++){
     const cell=document.createElement('div'); cell.className='cell'; cell.id='cell'+i;
     cell.innerHTML=`<div class="chead"><span class="numbadge">${i}</span><input class="nameinput" id="name${i}" placeholder="이름 입력" maxlength="40"></div>
-      <div class="counts">프롬프트 <b id="pc${i}">0</b> · 파일 <b id="fc${i}">0</b></div>
+      <div class="counts"><span>프롬프트 <b id="pc${i}">0</b></span><span>파일 <b id="fc${i}">0</b></span><span class="rep">답변 <b id="rc${i}">0</b></span></div>
       <button class="copen" id="open${i}">상세 보기 ▸</button>`;
     g.appendChild(cell);
     const ni=cell.querySelector('.nameinput');
@@ -347,7 +377,7 @@ function renderMatList(ul,mats,isHostSide){
   });
 }
 
-function openModal(number){ openStudent=number; selPromptId=null; $('overlay').classList.remove('hidden'); renderModal(); }
+function openModal(number){ openStudent=number; selPromptId=null; $('mReply').value=''; $('overlay').classList.remove('hidden'); renderModal(); }
 function closeModal(){ openStudent=null; $('overlay').classList.add('hidden'); }
 function renderModal(){
   const s=latest.students[openStudent]; if(!s) return;
@@ -369,7 +399,26 @@ function renderModal(){
     $('mViewerMeta').textContent=`#${s.prompts.indexOf(sel)+1} · ${fmtTime(sel.ts)}`;
     $('mViewerText').textContent=sel.text;
     const cp=$('mCopy'); cp.classList.remove('hidden'); cp.onclick=()=>copyText(sel.text);
-  }else{ $('mViewerMeta').textContent='왼쪽에서 항목을 선택하세요'; $('mViewerText').textContent=''; $('mCopy').classList.add('hidden'); }
+    $('mReplyHint').textContent='↳ #'+(s.prompts.indexOf(sel)+1)+' 프롬프트에 답변합니다';
+  }else{
+    $('mViewerMeta').textContent='왼쪽에서 항목을 선택하세요'; $('mViewerText').textContent=''; $('mCopy').classList.add('hidden');
+    $('mReplyHint').textContent='이 학생에게 보낼 답변을 입력하세요 (특정 프롬프트를 고르면 그 질문에 연결됩니다)';
+  }
+  // 보낸 답변 목록
+  const rl=$('mReplyList'); const reps=s.replies||[];
+  if(!reps.length){ rl.innerHTML='<li class="rl-empty">아직 보낸 답변이 없습니다.</li>'; }
+  else{
+    rl.innerHTML='';
+    reps.forEach(r=>{
+      const pi=r.re?s.prompts.findIndex(p=>p.id===r.re):-1;
+      const ref=pi>=0?`#${pi+1} 프롬프트 답변 · `:'';
+      const li=document.createElement('li');
+      li.innerHTML=`<div class="rmeta">${ref}${fmtTime(r.ts)}</div>${esc(r.text)}<button class="linkbtn rdel">삭제</button>`;
+      li.querySelector('.rdel').onclick=async()=>{ try{ await postJSON('/host/reply/delete',{number:openStudent,id:r.id}); toast('답변 삭제됨'); poll(); }catch(e){ toast(e.message,true); } };
+      rl.appendChild(li);
+    });
+  }
+  // 제출 파일
   const fl=$('mFiles');
   if(!s.files.length){ fl.innerHTML='<li style="background:none;border:none;color:var(--muted);padding:4px">제출 파일 없음</li>'; }
   else{
@@ -396,6 +445,19 @@ function renderStudent(){
   renderMatList($('stMatList'),latest.materials,false);
   if(!matInitialized){ seenMaterialCount=latest.materials.length; matInitialized=true; }
   if(latest.materials.length>seenMaterialCount) $('matBadge').classList.remove('hidden');
+  // 강사 답변
+  const reps=me.replies||[];
+  if(reps.length){
+    $('stReplyCard').classList.remove('hidden');
+    $('stReplyList').innerHTML=reps.map(r=>{
+      const pi=r.re?me.prompts.findIndex(p=>p.id===r.re):-1;
+      const tag=pi>=0?`내 프롬프트 #${pi+1} 답변`:'강사 답변';
+      return `<li><span class="mtag">${tag}</span>${esc(r.text)}<div class="rt">${fmtTime(r.ts)}</div></li>`;
+    }).join('');
+    if(!replyInitialized){ seenReplyCount=reps.length; replyInitialized=true; }
+    if(reps.length>seenReplyCount) $('replyBadge').classList.remove('hidden');
+  }else{ $('stReplyCard').classList.add('hidden'); }
+  // 내 제출
   const ul=$('stMine'); const items=[];
   me.prompts.forEach((p,i)=>items.push({ts:p.ts,html:`<span class="mtag">프롬프트 ${i+1}</span>${esc(p.text)}`}));
   me.files.forEach(f=>items.push({ts:f.ts,html:`<span class="mtag">파일</span>${esc(f.original)}`}));
@@ -432,7 +494,7 @@ function bindHost(){
     if(v===null) return; const n=parseInt(v,10); if(!(n>=1)) return toast('숫자를 입력하세요',true);
     try{ await postJSON('/host/config',{studentCount:n}); toast('수강생 수: '+n+'명'); poll(); }catch(e){ toast(e.message,true); } };
   $('resetBtn').classList.remove('hidden');
-  $('resetBtn').onclick=async()=>{ if(!confirm('이 강의("'+roomShown+'")의 모든 이름·프롬프트·파일을 삭제합니다. 계속할까요?')) return;
+  $('resetBtn').onclick=async()=>{ if(!confirm('이 강의("'+roomShown+'")의 모든 이름·프롬프트·파일·답변을 삭제합니다. 계속할까요?')) return;
     try{ await postJSON('/reset',{}); gridCount=0; selPromptId=null; closeModal(); toast('초기화 완료'); poll(); }catch(e){ toast(e.message,true); } };
   $('matTextBtn').onclick=async()=>{ const text=$('matText').value.trim(); if(!text) return toast('내용을 입력하세요',true);
     try{ await postJSON('/host/material/text',{text}); $('matText').value=''; toast('프롬프트 배포됨'); poll(); }catch(e){ toast(e.message,true); } };
@@ -440,6 +502,11 @@ function bindHost(){
     const fd=new FormData(); fd.append('file',f);
     try{ $('matFileBtn').disabled=true; await postForm('/host/material/file',fd); $('matFile').value=''; toast('파일 배포됨'); poll(); }
     catch(e){ toast(e.message,true); } finally{ $('matFileBtn').disabled=false; } };
+  // 1:1 답변 보내기
+  $('mReplyBtn').onclick=async()=>{ if(openStudent==null) return;
+    const text=$('mReply').value.trim(); if(!text) return toast('답변을 입력하세요',true);
+    try{ await postJSON('/host/reply',{number:openStudent,text,re:selPromptId||null}); $('mReply').value=''; toast('답변 전송됨'); poll(); }
+    catch(e){ toast(e.message,true); } };
   $('mClose').onclick=closeModal;
   $('mCopyAll').onclick=copyAllPrompts;
   $('overlay').onclick=e=>{ if(e.target===$('overlay')) closeModal(); };
@@ -456,6 +523,7 @@ function bindStudent(){
     try{ $('stFileBtn').disabled=true; await postForm('/student/file',fd); $('stFile').value=''; toast('파일 전송됨'); poll(); }
     catch(e){ toast(e.message,true); } finally{ $('stFileBtn').disabled=false; } };
   $('stMatList').addEventListener('click',()=>{ seenMaterialCount=latest?latest.materials.length:0; $('matBadge').classList.add('hidden'); });
+  $('stReplyCard').addEventListener('click',()=>{ const me=latest&&latest.students[myNumber]; seenReplyCount=me&&me.replies?me.replies.length:0; $('replyBadge').classList.add('hidden'); });
 }
 function bindLanding(){
   $('landBtn').onclick=()=>{ const n=parseInt($('landNum').value,10); const max=latest&&latest.configured?latest.studentCount:40;
